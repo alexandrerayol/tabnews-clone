@@ -1,1 +1,0 @@
-self.__RSC_CSS_MANIFEST={"__entry_css_mods__":{"/workspaces/tabnews-clone/src/app/page":["/workspaces/tabnews-clone/src/app/styles.module.css"]},"/workspaces/tabnews-clone/src/app/page.js":["/workspaces/tabnews-clone/src/app/styles.module.css"]}
