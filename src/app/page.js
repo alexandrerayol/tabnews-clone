@@ -1,7 +1,6 @@
 'use client'
 import { useState } from "react"
 import styles from "./styles.module.css"
-import {Image} from 'next/image'
 
 export default function Home() {
     const [isOpen, setIsOpen] = useState(false)
@@ -17,3 +16,7 @@ export default function Home() {
         </div>
     )
 }
+
+//adiciona primeiro comentário
+//adiciona segundo comentário
+
