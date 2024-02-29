@@ -20,12 +20,18 @@
     display: flex;
     width: 350px;
     height: 350px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
 }
 
 .close{
     visibility: hidden;
     width: 350px;
     height: 350px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
 }
 
 .close img, .open img{

@@ -17,9 +17,4 @@ export default function Home() {
     )
 }
 
-//adiciona primeiro comentário
-//adiciona segundo comentário
-//adiciona terceiro comentário
-//adiciona retificação de comentário de teste
-
 
