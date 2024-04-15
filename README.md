@@ -1,3 +1,3 @@
 # tabnews-clone
 
-Um projeto para estudos com base no projeto tabnews.
+Um repositório para estudos com base no projeto tabnews.com.br
