@@ -10,9 +10,10 @@ export async function GET() {
   ] = await Promise.all([
     database.query("SHOW server_version;"),
     database.query("SHOW max_connections;"),
-    database.query(
-      `SELECT count(*)::int FROM pg_stat_activity WHERE datname = '${databaseName}';`,
-    ),
+    database.query({
+      text: "SELECT count(*)::int FROM pg_stat_activity WHERE datname = $1;",
+      values: [databaseName],
+    }),
   ]);
 
   const versionValue = databaseVersionResponse.rows[0].server_version;
