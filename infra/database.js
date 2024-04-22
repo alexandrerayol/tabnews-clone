@@ -1,4 +1,5 @@
 import { Client } from "pg";
+
 async function query(QueryObject) {
   const client = new Client({
     user: process.env.POSTGRES_USER,
@@ -6,6 +7,7 @@ async function query(QueryObject) {
     database: process.env.POSTGRES_DB,
     password: process.env.POSTGRES_PASSWORD,
     port: process.env.POSTGRES_PORT,
+    ssl: getSSLValues(),
   });
 
   try {
@@ -23,3 +25,7 @@ async function query(QueryObject) {
 export default {
   query: query,
 };
+
+function getSSLValues() {
+  return process.env.NODE_ENV === "development" ? false : true;
+}
