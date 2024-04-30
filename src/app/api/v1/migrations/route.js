@@ -1,10 +1,11 @@
 import migrationRunner from "node-pg-migrate";
+import { join } from "node:path";
 
 export async function GET(request) {
   const defaultMigrationOptions = {
     databaseUrl: process.env.DATABASE_URL,
     direction: "up",
-    dir: "infra/migrations",
+    dir: join("infra", "migrations"),
     verbose: true,
   };
 
