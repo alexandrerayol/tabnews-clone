@@ -1,33 +1,49 @@
 import migrationRunner from "node-pg-migrate";
 import { join } from "node:path";
+import database from "infra/database";
 
-export async function GET(request) {
+export async function GET() {
+  const dbClient = await database.getNewClient();
+
   const defaultMigrationOptions = {
-    databaseUrl: process.env.DATABASE_URL,
+    dbClient,
     direction: "up",
     dir: join("infra", "migrations"),
     verbose: true,
+    migrationsTable: "pgmigrations",
+    dryRun: true,
   };
 
-  if (request.method === "GET") {
-    const migrations = await migrationRunner({
-      ...defaultMigrationOptions,
-      dryRun: true,
-    });
-
-    return Response.json({ migrations });
-  }
-
-  if (request.method === "POST") {
-    const migrations = await migrationRunner({
-      ...defaultMigrationOptions,
-      dryRun: false,
-    });
-
-    return Response.json({ migrations });
-  }
-
-  return new Response("Method Not Allowed", {
-    status: 403,
+  const pendingMigrations = await migrationRunner({
+    ...defaultMigrationOptions,
   });
+  await dbClient.end();
+  return Response.json(pendingMigrations);
+}
+
+export async function POST() {
+  const dbClient = await database.getNewClient();
+
+  const defaultMigrationOptions = {
+    dbClient,
+    direction: "up",
+    dir: join("infra", "migrations"),
+    verbose: true,
+    migrationsTable: "pgmigrations",
+    dryRun: true,
+  };
+
+  const migratedMigrations = await migrationRunner({
+    ...defaultMigrationOptions,
+    dryRun: false,
+  });
+  await dbClient.end();
+
+  if (migratedMigrations.length > 0) {
+    return new Response(JSON.stringify(migratedMigrations), {
+      status: 201,
+    });
+  }
+
+  return Response.json(migratedMigrations);
 }
