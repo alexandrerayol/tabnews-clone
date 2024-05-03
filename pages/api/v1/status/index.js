@@ -1,16 +1,18 @@
-import database from "infra/database";
+import { query } from "infra/database";
 
-export async function GET() {
+export default async function Status(request, response) {
   const updatedAt = new Date().toISOString();
+
   const databaseName = process.env.POSTGRES_DB;
+
   const [
     databaseVersionResponse,
     databaseMaxConnectionsResponse,
     databaseOpenedConnectionsResponse,
   ] = await Promise.all([
-    database.query("SHOW server_version;"),
-    database.query("SHOW max_connections;"),
-    database.query({
+    query("SHOW server_version;"),
+    query("SHOW max_connections;"),
+    query({
       text: "SELECT count(*)::int FROM pg_stat_activity WHERE datname = $1;",
       values: [databaseName],
     }),
@@ -23,7 +25,7 @@ export async function GET() {
   const openedConnectionsValue =
     databaseOpenedConnectionsResponse.rows[0].count;
 
-  return Response.json({
+  return response.status(200).json({
     updated_at: updatedAt,
     dependencies: {
       database: {
